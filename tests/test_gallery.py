@@ -31,12 +31,14 @@ class GalleryTests(unittest.TestCase):
         catalogue = self.root / 'data/photos.json'
         photos = json.loads(catalogue.read_text())
         photos[0]['title'] = '<Sunset & light>'
+        photos[0]['location'] = {'city': 'Amsterdam', 'country': 'Netherlands'}
         catalogue.write_text(json.dumps(photos))
         gallery.build(self.root)
         output = self.root / '_site'
         page = (output / 'index.html').read_text()
         self.assertIn('href="https://www.linkedin.com/in/hamzakababji/" target="_blank" rel="noopener noreferrer">Hamza Elkababji</a>', page)
         self.assertIn('&lt;Sunset &amp; light&gt;', page)
+        self.assertIn('<h3>&lt;Sunset &amp; light&gt; — Amsterdam, Netherlands</h3>', page)
         self.assertIn('download aria-label=', page)
         self.assertEqual((output / photos[0]['original']).read_bytes(), self.source.read_bytes())
         with Image.open(next((output / 'previews').glob('*.webp'))) as preview:
@@ -67,6 +69,7 @@ class GalleryTests(unittest.TestCase):
         gallery.build(self.root)
         page = (self.root / '_site/index.html').read_text()
         self.assertIn('https://images.example.org/original.jpg', page)
+        self.assertIn('<h3>Landscape</h3>', page)
         self.assertIn('use Save Image to download', page)
 
 if __name__ == '__main__':

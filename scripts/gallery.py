@@ -106,6 +106,9 @@ def build(root):
         person = people[photo['photographer']]
         profile = https_url(person['url'])
         title, alt = photo['title'].strip(), photo['alt'].strip()
+        location = photo.get('location', {})
+        place = ', '.join(location.get(key, '').strip() for key in ('city', 'country') if location.get(key, '').strip())
+        display_title = f'{title} — {place}' if place else title
         terms = photo.get('terms', person.get('terms', '')).strip()
         if not title or not alt or not terms:
             raise ValueError(f'{identity} needs a title, alt description, and reuse terms.')
@@ -133,7 +136,7 @@ def build(root):
                 upright.convert('RGB').save(out / preview, 'WEBP', quality=85, method=6)
             meta = f'{width:,} × {height:,} pixels · {source.stat().st_size / 1024 / 1024:.1f} MB'
             original = quote(original, safe='/')
-        attribution = f'“{title}” — Photograph by {person["name"]} ({profile}). Source: {SITE_URL}#{identity}. {terms}'
+        attribution = f'“{display_title}” — Photograph by {person["name"]} ({profile}). Source: {SITE_URL}#{identity}. {terms}'
         download = 'target="_blank" rel="noopener noreferrer"' if remote else 'download'
         remote_note = '<p class="photo-meta">Opens the original on the image host; use Save Image to download.</p>' if remote else ''
         cards.append(f'''<article class="card photo-card" id="{e(identity)}">
@@ -142,7 +145,7 @@ def build(root):
       <img src="{e(preview)}" alt="{e(alt)}" width="{width}" height="{height}" loading="lazy" decoding="async">
     </a>
     <figcaption class="photo-caption">
-      <h3>{e(title)}</h3>
+      <h3>{e(display_title)}</h3>
       <p class="photo-credit">Photograph by <a href="{e(profile)}" target="_blank" rel="noopener noreferrer">{e(person['name'])}</a></p>
       <p>{e(photo.get('description', ''))}</p>
       <p class="photo-meta">{e(meta)}</p>

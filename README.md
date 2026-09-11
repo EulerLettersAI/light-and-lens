@@ -29,6 +29,13 @@ Use descriptive filenames such as `Sunset over Wadi Rum.jpg` for initial titles.
 Review the generated titles and write meaningful `alt` descriptions in the catalogue;
 optionally add a `description`. File order in the catalogue controls gallery order.
 
+An optional `location` object displays city and country after the title:
+`"location": {"city": "Amsterdam", "country": "Netherlands"}`.
+The initial location labels were obtained from embedded EXIF GPS coordinates using
+OpenStreetMap reverse geocoding. Provenance is recorded in `location.source`.
+Photos without location metadata have no location label. Imports do not guess locations
+or call a geocoding service; add verified locations to the catalogue when available.
+
 Then commit and push:
 
 ```sh

@@ -5,7 +5,12 @@
     "title": "Canal at dusk",
     "alt": "Boats moored along a canal beneath a blue evening sky, with lights reflected on the water.",
     "description": "",
-    "original": "photos/hamza-elkababji/IMG_2415.jpeg"
+    "original": "photos/hamza-elkababji/IMG_2415.jpeg",
+    "location": {
+      "city": "Amsterdam",
+      "country": "Netherlands",
+      "source": "EXIF GPS, reverse geocoded with OpenStreetMap Nominatim"
+    }
   },
   {
     "id": "hamza-elkababji-img-2421",
@@ -21,7 +26,12 @@
     "title": "Across the little bridge",
     "alt": "A wooden footbridge leads past hedges toward green houses with steep tiled roofs.",
     "description": "",
-    "original": "photos/hamza-elkababji/IMG_2422.jpeg"
+    "original": "photos/hamza-elkababji/IMG_2422.jpeg",
+    "location": {
+      "city": "Zaandam",
+      "country": "Netherlands",
+      "source": "EXIF GPS, reverse geocoded with OpenStreetMap Nominatim"
+    }
   },
   {
     "id": "hamza-elkababji-img-2454",
@@ -29,7 +39,12 @@
     "title": "A different view",
     "alt": "An ornate building reflected in a vehicle mirror beside a red pipe and brick wall.",
     "description": "",
-    "original": "photos/hamza-elkababji/IMG_2454.jpeg"
+    "original": "photos/hamza-elkababji/IMG_2454.jpeg",
+    "location": {
+      "city": "Ghent",
+      "country": "Belgium",
+      "source": "EXIF GPS, reverse geocoded with OpenStreetMap Nominatim"
+    }
   },
   {
     "id": "hamza-elkababji-img-2513",
@@ -37,7 +52,12 @@
     "title": "Along the platform",
     "alt": "Workers wearing orange high-visibility clothing and hard hats walk along a railway platform.",
     "description": "",
-    "original": "photos/hamza-elkababji/IMG_2513.jpeg"
+    "original": "photos/hamza-elkababji/IMG_2513.jpeg",
+    "location": {
+      "city": "Amsterdam",
+      "country": "Netherlands",
+      "source": "EXIF GPS, reverse geocoded with OpenStreetMap Nominatim"
+    }
   },
   {
     "id": "hamza-elkababji-img-2524",

@@ -64,6 +64,8 @@ def import_photos(root, sources, photographer):
             raise ValueError(f'Duplicate photo {identity}; rename the new file or edit the existing entry.')
         known.add(identity)
         destination = root / 'photos' / photographer / (slug(source.stem) + source.suffix.lower())
+        if source.resolve().parent == (root / 'photos' / photographer).resolve():
+            destination = source.resolve()
         if destination.exists() and destination.resolve() != source.resolve():
             raise ValueError(f'Refusing to overwrite {destination}')
         if source.stat().st_size >= 100 * 1024 * 1024:

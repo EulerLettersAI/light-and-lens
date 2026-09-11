@@ -1,0 +1,20 @@
+/* Gallery additions use the parent site's shared colours and sizing. */
+.gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; margin-top: 28px; }
+.photo-card { padding: 0; overflow: hidden; min-width: 0; }
+.photo-card figure { margin: 0; }
+.photo-preview { display: block; background: var(--bg-deep); }
+.photo-preview img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; }
+.photo-caption { padding: 22px; }
+.photo-caption a:not(.button), .reuse-note a { color: var(--emerald-soft); text-underline-offset: 3px; }
+.photo-credit { margin-bottom: 16px; }
+.photo-meta, .photo-terms { color: var(--muted); font-size: 14px; }
+.photo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.photo-actions button { cursor: pointer; font-family: inherit; }
+.attribution { margin-top: 16px; }
+.attribution summary { cursor: pointer; color: var(--gold); }
+.attribution p { margin: 10px 0 0; overflow-wrap: anywhere; font-size: 14px; }
+.copy-status { min-height: 1.6em; margin-top: 8px; font-size: 14px; color: var(--emerald-soft); }
+.reuse-note { margin-top: 30px; max-width: 75ch; }
+.empty-gallery { margin-top: 24px; }
+.photo-card :focus-visible, .reuse-note a:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+@media (max-width: 680px) { .gallery-grid { grid-template-columns: 1fr; } }

@@ -37,8 +37,8 @@ class GalleryTests(unittest.TestCase):
         output = self.root / '_site'
         page = (output / 'index.html').read_text()
         self.assertIn('href="https://www.linkedin.com/in/hamzakababji/" target="_blank" rel="noopener noreferrer">Hamza Elkababji</a>', page)
-        self.assertIn('&lt;Sunset &amp; light&gt;', page)
-        self.assertIn('<h3>&lt;Sunset &amp; light&gt; — Amsterdam, Netherlands</h3>', page)
+        self.assertNotIn('Sunset &amp; light', page)
+        self.assertIn('<h3>Amsterdam, Netherlands</h3>', page)
         self.assertIn('download aria-label=', page)
         self.assertEqual((output / photos[0]['original']).read_bytes(), self.source.read_bytes())
         with Image.open(next((output / 'previews').glob('*.webp'))) as preview:
@@ -61,7 +61,7 @@ class GalleryTests(unittest.TestCase):
 
     def test_external_storage(self):
         photos = [{'id': 'external', 'photographer': 'hamza-elkababji',
-                   'title': 'Landscape', 'alt': 'A landscape',
+                   'alt': 'A landscape',
                    'original': 'https://images.example.org/original.jpg',
                    'preview': 'https://images.example.org/preview.webp',
                    'width': 4000, 'height': 3000}]
@@ -69,7 +69,8 @@ class GalleryTests(unittest.TestCase):
         gallery.build(self.root)
         page = (self.root / '_site/index.html').read_text()
         self.assertIn('https://images.example.org/original.jpg', page)
-        self.assertIn('<h3>Landscape</h3>', page)
+        self.assertNotIn('<h3>', page.split('<!-- GALLERY_START -->')[1].split('<!-- GALLERY_END -->')[0])
+        self.assertIn('View preview: A landscape', page)
         self.assertIn('use Save Image to download', page)
 
 if __name__ == '__main__':

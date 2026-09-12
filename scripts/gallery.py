@@ -72,10 +72,10 @@ def import_photos(root, sources, photographer):
             raise ValueError(f'{source.name} exceeds the repository file limit; use external storage.')
         with Image.open(source) as image:
             image.verify()
-        title = re.sub(r'[-_]+', ' ', source.stem).strip()
+        alt = re.sub(r'[-_]+', ' ', source.stem).strip()
         pending.append((source, destination, {
-            'id': identity, 'photographer': photographer, 'title': title,
-            'alt': title, 'description': '', 'original': destination.relative_to(root).as_posix()
+            'id': identity, 'photographer': photographer,
+            'alt': alt, 'description': '', 'original': destination.relative_to(root).as_posix()
         }))
     for source, destination, entry in pending:
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -83,7 +83,7 @@ def import_photos(root, sources, photographer):
             shutil.copy2(source, destination)
         photos.append(entry)
     (root / 'data/photos.json').write_text(json.dumps(photos, indent=2, ensure_ascii=False) + '\n')
-    print(f'Imported {len(pending)} photo(s). Review titles and alt descriptions in data/photos.json.')
+    print(f'Imported {len(pending)} photo(s). Review alt descriptions in data/photos.json.')
 
 
 def build(root):
@@ -105,13 +105,14 @@ def build(root):
         seen.add(identity)
         person = people[photo['photographer']]
         profile = https_url(person['url'])
-        title, alt = photo['title'].strip(), photo['alt'].strip()
+        alt = photo['alt'].strip()
         location = photo.get('location', {})
         place = ', '.join(location.get(key, '').strip() for key in ('city', 'country') if location.get(key, '').strip())
-        display_title = f'{title} — {place}' if place else title
+        location_heading = f'<h3>{e(place)}</h3>' if place else ''
+        label = place or alt
         terms = photo.get('terms', person.get('terms', '')).strip()
-        if not title or not alt or not terms:
-            raise ValueError(f'{identity} needs a title, alt description, and reuse terms.')
+        if not alt or not terms:
+            raise ValueError(f'{identity} needs an alt description and reuse terms.')
         original = photo['original']
         remote = original.startswith('https://')
         if remote:
@@ -136,22 +137,23 @@ def build(root):
                 upright.convert('RGB').save(out / preview, 'WEBP', quality=85, method=6)
             meta = f'{width:,} × {height:,} pixels · {source.stat().st_size / 1024 / 1024:.1f} MB'
             original = quote(original, safe='/')
-        attribution = f'“{display_title}” — Photograph by {person["name"]} ({profile}). Source: {SITE_URL}#{identity}. {terms}'
+        attribution_prefix = f'{place} — ' if place else ''
+        attribution = f'{attribution_prefix}Photograph by {person["name"]} ({profile}). Source: {SITE_URL}#{identity}. {terms}'
         download = 'target="_blank" rel="noopener noreferrer"' if remote else 'download'
         remote_note = '<p class="photo-meta">Opens the original on the image host; use Save Image to download.</p>' if remote else ''
         cards.append(f'''<article class="card photo-card" id="{e(identity)}">
   <figure>
-    <a class="photo-preview" href="{e(preview)}" target="_blank" rel="noopener noreferrer" aria-label="View preview: {e(title)}">
+    <a class="photo-preview" href="{e(preview)}" target="_blank" rel="noopener noreferrer" aria-label="View preview: {e(label)}">
       <img src="{e(preview)}" alt="{e(alt)}" width="{width}" height="{height}" loading="lazy" decoding="async">
     </a>
     <figcaption class="photo-caption">
-      <h3>{e(display_title)}</h3>
+      {location_heading}
       <p class="photo-credit">Photograph by <a href="{e(profile)}" target="_blank" rel="noopener noreferrer">{e(person['name'])}</a></p>
       <p>{e(photo.get('description', ''))}</p>
       <p class="photo-meta">{e(meta)}</p>
       <p class="photo-terms">{e(terms)}</p>
       <div class="photo-actions">
-        <a class="button primary" href="{e(original)}" {download} aria-label="Download full resolution: {e(title)}">Download full resolution</a>
+        <a class="button primary" href="{e(original)}" {download} aria-label="Download full resolution: {e(label)}">Download full resolution</a>
         <button class="button ghost" type="button" data-copy-attribution>Copy attribution</button>
       </div>
       {remote_note}

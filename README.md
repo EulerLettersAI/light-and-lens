@@ -25,11 +25,11 @@ The command copies originals into `photos/hamza-elkababji/` without modifying
 them and adds entries to `data/photos.json`. Original files retain their metadata;
 review any location or other embedded information before publishing.
 Duplicate names are rejected without overwriting an existing photograph.
-Use descriptive filenames such as `Sunset over Wadi Rum.jpg` for initial titles.
-Review the generated titles and write meaningful `alt` descriptions in the catalogue;
+Use descriptive filenames such as `Sunset over Wadi Rum.jpg` for initial alt text.
+Review and write meaningful `alt` descriptions in the catalogue;
 optionally add a `description`. File order in the catalogue controls gallery order.
 
-An optional `location` object displays city and country after the title:
+An optional `location` object displays city and country as the photo’s heading:
 `"location": {"city": "Amsterdam", "country": "Netherlands"}`.
 The initial location labels were obtained from embedded EXIF GPS coordinates using
 OpenStreetMap reverse geocoding. Provenance is recorded in `location.source`.

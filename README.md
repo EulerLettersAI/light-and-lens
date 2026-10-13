@@ -79,7 +79,7 @@ uv run python scripts/gallery.py import "/path/to/photos" --photographer photogr
 ```
 
 Every preview’s credit automatically links to that photographer’s profile.
-Hamza’s profile is https://www.linkedin.com/in/hamzakababji/.
+Hamza’s website is https://www.hamzakababji.com/.
 
 ## Attribution and reuse
 

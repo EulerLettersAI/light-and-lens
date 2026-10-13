@@ -36,7 +36,7 @@ class GalleryTests(unittest.TestCase):
         gallery.build(self.root)
         output = self.root / '_site'
         page = (output / 'index.html').read_text()
-        self.assertIn('href="https://www.linkedin.com/in/hamzakababji/" target="_blank" rel="noopener noreferrer">Hamza Elkababji</a>', page)
+        self.assertIn('href="https://www.hamzakababji.com/" target="_blank" rel="noopener noreferrer">Hamza Elkababji</a>', page)
         self.assertNotIn('Sunset &amp; light', page)
         self.assertIn('<h3>Amsterdam, Netherlands</h3>', page)
         self.assertIn('download aria-label=', page)
